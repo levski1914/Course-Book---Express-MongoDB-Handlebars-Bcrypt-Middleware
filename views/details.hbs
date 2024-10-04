@@ -1,0 +1,43 @@
+<main>
+  <div class="details-container">
+    <div class="details-container-image">
+      <img src="{{course.image}}" />
+    </div>
+    <div class="details-container-info">
+      <h2>Title: {{course.title}}</h2>
+      <h3>Type: {{course.type}}</h3>
+      <h3>Certificate: {{course.certificate}}</h3>
+      <h3>Price: €{{course.price}}</h3>
+      <h3>By: {{course.owner.email}}</h3>
+      <!--If there are sign up users-->
+      {{#if course.signUpList.length}}
+        <h4>Signed By:
+          {{#each course.signUpList}}
+            {{this.username}}{{#unless @last}}, {{/unless}}
+          {{/each}}
+        </h4>
+      {{else}}
+        <!--If there are no sign up users-->
+        <h4>Nobody has signed in for this course yet</h4>
+      {{/if}}
+    </div>
+    <div class="details-container-content">
+      <p>{{course.description}}</p>
+    </div>
+    <div class="btn-container">
+      <!-- Only for registered user and creator of the course-->
+      {{#if isOwner}}
+        <a href="/courses/edit/{{course._id}}">Edit</a>
+        <a href="/courses/delete/{{course._id}}">Delete</a>
+      {{else}}
+        <!-- logged in user who has not yet signed up for the course-->
+        {{#unless hasSignedUp}}
+          <a href="/courses/signUp/{{course._id}}">Sign up</a>
+        {{else}}
+          <!-- logged in user who has already signed up for the course-->
+          <p class="sign-up">You've already signed up for this course!</p>
+        {{/unless}}
+      {{/if}}
+    </div>
+  </div>
+</main>
