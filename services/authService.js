@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("../lib/jsonwebtoken");
 
 const { SECRET } = require("../config");
+const Courses = require("../models/Courses");
 exports.register = async (userData) => {
   if (userData.password !== userData.rePassword) {
     throw new Error("Password mismatch");
@@ -39,6 +40,31 @@ exports.login = async ({ email, password }) => {
   // Return token
 
   return token;
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).lean();
+
+    if (!user) {
+      return res.redirect("/");
+    }
+
+    const createdCourses = await Courses.find({ owner: req.params.id }).lean();
+    const signedUpCourses = await Courses.find({
+      signUpList: req.params.id,
+    }).lean();
+
+    res.render("profile", {
+      user,
+      createdCourses,
+      signedUpCourses,
+      totalCreatedCourses: createdCourses.length,
+      totalSignedUpCourses: signedUpCourses.length,
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 };
 
 function generateToken(user) {

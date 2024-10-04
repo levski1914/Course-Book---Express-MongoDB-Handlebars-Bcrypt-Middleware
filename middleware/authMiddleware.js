@@ -11,9 +11,9 @@ exports.authMiddleWare = async (req, res, next) => {
   try {
     const decodedToken = await jwt.verify(token, SECRET);
 
-    req.user = decodedToken;
+    req.user = decodedToken; // Задаваме потребителя в req
     res.locals.isAuthenticated = true;
-    res.locals.user = decodedToken;
+    res.locals.user = decodedToken; // Задаваме го и в res.locals
 
     next();
   } catch (err) {

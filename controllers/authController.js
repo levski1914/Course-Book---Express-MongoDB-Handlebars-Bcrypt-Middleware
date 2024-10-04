@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const { ownerOnly } = require("../middleware/routerGuards");
 const authService = require("../services/authService");
 const { getErrorMessage } = require("../utils/errorUtils");
 
@@ -40,4 +41,7 @@ router.get("/logout", (req, res) => {
   res.clearCookie("auth");
   res.redirect("/");
 });
+
+router.get("/profile/:id", authService.getProfile);
+
 module.exports = router;

@@ -28,8 +28,8 @@
           <li><a href="/courses/catalog">All Courses</a></li>
 
           {{#if isAuthenticated}}
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Create Course Offers</a></li>
+            <li><a href="/auth/profile/{{user._id}}">Profile</a></li>
+            <li><a href="/courses/create">Create Course Offers</a></li>
             <li><a href="/auth/logout">Logout</a></li>
           {{else}}
             <li><a href="/auth/login">Login</a></li>
